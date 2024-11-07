@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblical Life Motivation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .quote-box {
+            background-color: #1a1a1a;
+            padding: 2rem;
+            border: 2px solid white;
+            border-radius: 10px;
+            margin: 2rem 0;
+            opacity: 0;
+            transform: scale(0.7) translateY(20px);
+            transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            max-width: 800px;
+            width: 90%;
+            display: none; /* Initially hidden */
+        }
+
+        .quote-box.active {
+            display: block; /* Show when active */
+        }
+
+        .quote-box.show {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transition: 1.2s;
+        }
+
+        .quote-box.show .shine {
+            left: 100%;
+            transition: 1.2s ease-in;
+        }
+
+        #quote {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 1s ease;
+        }
+
+        #reference {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #cccccc;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 1s ease;
+        }
+
+        .quote-box.show #quote,
+        .quote-box.show #reference {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .quote-box.show #reference {
+            transition-delay: 0.3s;
+        }
+
+        .generate-button {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 1.5rem 3rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 5px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-button:hover {
+            background-color: white;
+            color: black;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            #quote {
+                font-size: 1.2rem;
+            }
+            .quote-box {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .generate-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quote-box" id="quoteBox">
+        <div class="shine"></div>
+        <p id="quote"></p>
+        <p id="reference"></p>
+    </div>
+    <button class="generate-button" onclick="getNewQuote()">Generate</button>
+
+    <script>
+        const quotes = [
+            {
+                text: "For I know the plans I have for you, plans to prosper you and not to harm you, plans to give you hope and a future.",
+                reference: "Jeremiah 29:11"
+            },
+            {
+                text: "I can do all things through Christ who strengthens me.",
+                reference: "Philippians 4:13"
+            },
+            {
+                text: "Don't let anyone look down on you because you are young, but set an example for the believers in speech, in conduct, in love, in faith and in purity.",
+                reference: "1 Timothy 4:12"
+            },
+            {
+                text: "Cast your cares on the Lord and he will sustain you; he will never let the righteous be shaken.",
+                reference: "Psalm 55:22"
+            },
+            {
+                text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.",
+                reference: "Romans 8:28"
+            },
+            {
+                text: "Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.",
+                reference: "Joshua 1:9"
+            },
+            {
+                text: "Therefore, if anyone is in Christ, the new creation has come: The old has gone, the new is here!",
+                reference: "2 Corinthians 5:17"
+            },
+            {
+                text: "Trust in the LORD with all your heart and lean not on your own understanding.",
+                reference: "Proverbs 3:5"
+            },
+            {
+                text: "But seek first his kingdom and his righteousness, and all these things will be given to you as well.",
+                reference: "Matthew 6:33"
+            },
+            {
+                text: "Whatever you do, work at it with all your heart, as working for the Lord, not for human masters.",
+                reference: "Colossians 3:23"
+            },
+            {
+                text: "Consider it pure joy whenever you face trials of many kinds, because you know that the testing of your faith produces perseverance.",
+                reference: "James 1:2-3"
+            },
+            {
+                text: "Be joyful in hope, patient in affliction, faithful in prayer.",
+                reference: "Romans 12:12"
+            },
+            {
+                text: "The Lord himself goes before you and will be with you; he will never leave you nor forsake you. Do not be afraid; do not be discouraged.",
+                reference: "Deuteronomy 31:8"
+            },
+            {
+                text: "Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up.",
+                reference: "Galatians 6:9"
+            },
+            {
+                text: "For God gave us a spirit not of fear but of power and love and self-control.",
+                reference: "2 Timothy 1:7"
+            },
+            {
+                text: "Commit to the LORD whatever you do, and he will establish your plans.",
+                reference: "Proverbs 16:3"
+            },
+            {
+                text: "But blessed is the one who trusts in the Lord, whose confidence is in him.",
+                reference: "Jeremiah 17:7"
+            },
+            {
+                text: "The Lord makes firm the steps of the one who delights in him.",
+                reference: "Psalm 37:23"
+            },
+            {
+                text: "Be strong, and let your heart take courage, all you who wait for the Lord!",
+                reference: "Psalm 31:24"
+            },
+            {
+                text: "For with God nothing shall be impossible.",
+                reference: "Luke 1:37"
+            },
+            {
+                text: "The Lord is my strength and my shield; my heart trusts in him, and he helps me.",
+                reference: "Psalm 28:7"
+            },
+            {
+                text: "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
+                reference: "Isaiah 40:31"
+            },
+            {
+                text: "I have fought the good fight, I have finished the race, I have kept the faith.",
+                reference: "2 Timothy 4:7"
+            },
+            {
+                text: "The name of the Lord is a fortified tower; the righteous run to it and are safe.",
+                reference: "Proverbs 18:10"
+            },
+            {
+                text: "Be strong and take heart, all you who hope in the Lord.",
+                reference: "Psalm 31:24"
+            }
+        ];
+
+        let isFirstQuote = true;
+
+        function getNewQuote() {
+            const quoteBox = document.getElementById('quoteBox');
+            
+            if (isFirstQuote) {
+                quoteBox.classList.add('active');
+                isFirstQuote = false;
+            }
+
+            quoteBox.classList.remove('show');
+            
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * quotes.length);
+                document.getElementById('quote').textContent = quotes[randomIndex].text;
+                document.getElementById('reference').textContent = quotes[randomIndex].reference;
+                quoteBox.classList.add('show');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
