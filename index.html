@@ -36,11 +36,11 @@
             overflow: hidden;
             max-width: 800px;
             width: 90%;
-            display: none; /* Initially hidden */
+            display: none;
         }
 
         .quote-box.active {
-            display: block; /* Show when active */
+            display: block;
         }
 
         .quote-box.show {
@@ -109,6 +109,19 @@
             text-transform: uppercase;
             position: relative;
             overflow: hidden;
+            opacity: 0; /* Start with 0 opacity */
+            animation: fadeIn 1.5s ease-in forwards; /* Add fade-in animation */
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .generate-button:hover {
